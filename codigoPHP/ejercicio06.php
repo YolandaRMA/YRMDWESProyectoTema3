@@ -42,6 +42,10 @@
 //se utiliza el numero obtenido para buscar el nombre del día  dentro de $diasSemana.
 
         echo "Será " . $diasSemana[$numeroDia];
+        
+        /*
+        
+        */
         ?>
         </main>
      <footer>

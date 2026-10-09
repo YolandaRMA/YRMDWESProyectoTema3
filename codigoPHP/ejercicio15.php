@@ -11,20 +11,27 @@
 
         <main>
             <?php
-            
-            $adistintosSueldos=[50,55,60,20,30,100,10];
-            $aSueldoSemana=[
-                "Lunes" =>50,
-                "Martes"=>55,
-                "Miercoles"=>60,
-                "Jueves"=>20,
-                "Viernes"=>30,
-                "Sabado"=>100,
-                "Domingo"=>10                
+            $aSueldoDia = [
+                "Lunes" => random_int(20, 60),
+                "Martes" => 55,
+                "Miercoles" => 60,
+                "Jueves" => 20,
+                "Viernes" => 30,
+                "Sabado" => 100,
+                "Domingo" => 10
             ];
-            
-            
-            
+            // Inicializamos la variable que acumulará el salario semanal
+            $totalSueldoSemana = 0;
+            echo "<h3>Salario obtenido a lo largo de la semana</h3>";
+            // Recorremos el array obteniendo la clave dia y el valor salario
+            foreach ($aSueldoDia as $dia => $salarioDia) {
+                echo "$dia: $salarioDia euros<br>";
+                // Sumamos el salario del día al total semanal
+                $totalSueldoSemana += $salarioDia;
+            }
+            // Mostramos el salario total de la semana 
+            echo "<br><h3>El total del salario semanal es: " . $totalSueldoSemana . " euros</h3>";
+            ?>
             ?>
         </main>
         <footer>

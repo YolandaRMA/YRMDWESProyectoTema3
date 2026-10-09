@@ -30,6 +30,22 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
 
 // Aplicaformato a la fecha actual y la muestra
             echo $formato->format($fechaActual);
+            
+            /*
+              // Establecer la zona horaria por def
+                date_default_timezone_set('Europe/Lisbon');
+                // crear un objet de DateTime.
+                $obFecha = new DateTime();
+
+                // locale  en español
+                setlocale(LC_TIME, 'pt_PT.UTF-8', 'pt_PT', 'portuguese');
+
+
+                echo("<h3>Fecha y hora actuales en Portugues.</h3><br>");     
+                echo( "<p>La fecha de hoy en Portugal es :<span> " . $ofecha->format("l") . " " . $ofecha->format("d") . " de " . $ofecha->format("F") . " de " . $ofecha->format("o") . " y la hora es: " . $ofecha->format("H:i:s") . '</span></p>');
+                //info parametros format : https://www.php.net/manual/es/datetime.format.php
+
+              */
             ?>
         </main>
         <footer>

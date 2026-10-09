@@ -13,7 +13,7 @@
 
             $nombreFichero = basename($rutaFichero);
 
-// Mostramos el nombre del fichero
+            // Mostramos el nombre del fichero
             echo "El fichero que se está ejecutando es: " . $nombreFichero;*/
 
             /*
@@ -23,7 +23,9 @@
 
               // Mostramos el nombre del fichero
               echo "El fichero que se está ejecutando es: " . $nombreFichero;
-             
+            
+               //echo "<h3>Fichero que se está ejecutando(PHP_SELF): </h3>" . $_SERVER['PHP_SELF'];
+                //echo "<br><br><h3>Fichero que se está ejecutando(SCRIPT_NAME): </h3> " . $_SERVER['SCRIPT_NAME'];
             ?>
         </main>
         <footer>

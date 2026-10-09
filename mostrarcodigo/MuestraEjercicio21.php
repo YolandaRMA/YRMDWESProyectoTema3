@@ -2,13 +2,12 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>01Muestra</title>
+        <title>ejercicio21</title>
         <link rel="stylesheet" href="../webroot/css/estilos.css">
     </head>
     <body>
-        <header>Inicializar variables de los distintos tipos de datos básicos(string, int, float, bool) 
-            y mostrar los datos por pantalla (echo, print, printf, print_r,var_dump).
-        </header>
+        <header>Hola mundo y phpinfo.</header>
+
         <main>
             <?php
             highlight_file("../codigoPHP/ejercicio21.php");
@@ -18,7 +17,7 @@
             <p><a href="../../YRMDWESProyectoDWES/indexProyectoDWES.php">Home</a></p>
             <div class="footer-text">
                 <p>2026-27 IES Los Sauces. &copy; Todos los derechos reservados.<a href="../index.html">Yolanda Rodríguez Moreno</a></p>
-                <time datetime="2026-09-30">Última actualización: 30 de Septiembre de 2026</time>
+                <time datetime="2026-09-30">Última actualización: 09 de Octubre de 2026</time>
             </div>
         </footer>
     </body>

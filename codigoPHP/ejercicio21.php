@@ -1,14 +1,14 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>00</title>
+        <title>ej-21</title>
         <link rel="stylesheet" href="../webroot/css/estilos.css">
     </head>
     <body>
         <header>
             <h1>
-                Construir un formulario para recoger un cuestionario realizado a una persona y enviarlo a una página Tratamiento.php para que muestre
-                las preguntas y las respuestas recogidas.
+                Construir un formulario para recoger un cuestionario realizado a una persona y enviarlo a una página Tratamiento.php 
+                para que muestre las preguntas y las respuestas recogidas.
             </h1>
         </header>
 
