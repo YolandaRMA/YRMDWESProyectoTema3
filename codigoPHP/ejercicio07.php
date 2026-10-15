@@ -3,9 +3,12 @@
     <head>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="../webroot/css/estilos.css">
-        <title></title>
+        <title>07</title>
     </head>
     <body>
+        <header>
+            <<h1>Mostrar el nombre del fichero ejecutado</h1>
+        </header>
         <main>
             <?php
             /* FILE es una constante especial de PHP contiene la ruta completa del fichero que se está ejecutando.
@@ -22,10 +25,10 @@
               $nombreFichero = basename(__FILE__);
 
               // Mostramos el nombre del fichero
-              echo "El fichero que se está ejecutando es: " . $nombreFichero;
+              echo "<h3>El fichero que se está ejecutando  basename(__FILE__) es: </h3>" . $nombreFichero;
             
-               //echo "<h3>Fichero que se está ejecutando(PHP_SELF): </h3>" . $_SERVER['PHP_SELF'];
-                //echo "<br><br><h3>Fichero que se está ejecutando(SCRIPT_NAME): </h3> " . $_SERVER['SCRIPT_NAME'];
+               echo "<h3>Fichero que se está ejecutando(PHP_SELF): </h3>" . $_SERVER['PHP_SELF'];
+                echo "<br><br><h3>Fichero que se está ejecutando(SCRIPT_NAME): </h3> " . $_SERVER['SCRIPT_NAME'];
             ?>
         </main>
         <footer>

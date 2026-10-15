@@ -1,17 +1,29 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>00</title>
+        <title>13</title>
         <link rel="stylesheet" href="../webroot/css/estilos.css">
     </head>
     <body>
-        <header>Hola mundo y phpinfo</header>
+        <header>Contador de visitas desde una fecha concreta</header>
 
         <main>
             <?php
-            echo "Hola mundo!";
-            phpinfo();
-            ?>
+            // Iniciamos la sesión
+            session_start();//inicia o recupera la sesión del usuario
+
+            // Si no existe el contador, lo inicializamos a cero
+            if (!isset($_SESSION['visitas'])) {//isset comprueba si ya existe la variable $_SESSION['visitas'].
+                $_SESSION['visitas'] = 0;//Si no existe se inicializa a 0
+            }
+
+            // Sumamos una visita
+            $_SESSION['visitas']++;//Cada vez que se carga la página se suma una visit
+
+            // Mostramos el resultado
+            echo "<h3>Contador de visitas</h3>";
+            echo "Número de visitas: " . $_SESSION['visitas'];
+      ?>
         </main>
         <footer>
             <p><a href="../indexProyectoTema3.php">Home</a></p>

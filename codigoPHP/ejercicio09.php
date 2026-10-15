@@ -5,16 +5,16 @@
         <link rel="stylesheet" href="../webroot/css/estilos.css">
     </head>
     <body>
-        <header>Hola mundo y phpinfo</header>
+        <header> Mostrar el path donde se encuentra el fichero que se está ejecutando.</header>
 
         <main>
             <?php
              //Con $SERVER y SCRIPT_NAME: ruta del fichero
-                echo'<h3>Ruta del fichero son "$_SERVER"<h3>';
-                echo '<p style="font-size:14px;">El path donde se encuentra el fichero que se está ejecutando: </p>' . $_SERVER['SCRIPT_FILENAME'];
+                echo'Ruta del fichero son "$_SERVER"<br>';
+                echo '<p>El path donde se encuentra el fichero que se está ejecutando: </p>' . $_SERVER['SCRIPT_FILENAME'];
                 //Sin $SERVER 
                 echo '<br><br><h3>Ruta del fichero sin "$_SERVER"</h3>';
-                echo '<p style="font-size:14px;"><b>El directorio donde se encuentra el fichero que se está ejecutando: ' . __DIR__ .'</b></p>';
+                echo '<p ><b>El directorio donde se encuentra el fichero que se está ejecutando: ' . __DIR__ .'</b></p>';
             ?>
         </main>
         <footer>

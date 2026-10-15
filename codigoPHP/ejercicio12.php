@@ -6,24 +6,32 @@
         <title></title>
     </head>
     <body>
+        <header>
+            <h2>Mostrar el contenido de las variables superglobales</h2>
+        </header>
         <main>
             <?php
-            /* FILE es una constante especial de PHP contiene la ruta completa del fichero que se está ejecutando.
-              basename() recibe una ruta y se queda solamente con el nombre del último fichero. */
+            // Guardamos las variables superglobales en un array
+            $aVariablesSuperglobales = [
+                '$_SERVER' => $_SERVER,
+                '$_COOKIE' => $_COOKIE,
+                '$_SESSION' => $_SESSION,
+                '$_REQUEST' => $_REQUEST,
+                '$_GET' => $_GET,
+                '$_POST' => $_POST,
+                '$_FILES' => $_FILES,
+                '$_ENV' => $_ENV
+            ];
 
-            $nombreFichero = basename($rutaFichero);
+            // Recorremos las variables superglobales
+            foreach ($aVariablesSuperglobales as $nombre => $superglobal) {
 
-// Mostramos el nombre del fichero
-            echo "El fichero que se está ejecutando es: " . $nombreFichero;
-
-            /*
-              forma mas sencilla FILE obtiene la ruta completa del archivo que se está ejecutando en este momento.
-              basename() elimina la ruta y deja solamente el nombre del archivo.
-              $nombreFichero = basename(__FILE__);
-
-              // Mostramos el nombre del fichero
-              echo "El fichero que se está ejecutando es: " . $nombreFichero;
-             */
+                echo "<h3>Contenido de $nombre</h3>";
+                // Mostramos el contenido de cada superglobal con <pre> para que navegador no colapse espacios ni ignore saltos de línea
+                echo "<pre>";
+                print_r($superglobal);
+                echo "</pre>";
+            }
             ?>
         </main>
         <footer>

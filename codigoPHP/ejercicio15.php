@@ -1,18 +1,21 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>00</title>
+        <title>15</title>
         <link rel="stylesheet" href="../webroot/css/estilos.css">
     </head>
     <body>
         <header>
-            <<h1>Crear e inicializar un array con el sueldo percibido de lunes a domingo. Recorrer el array para calcular el sueldo percibido durante lasemana.(Array asociativo con los nombres de los días de la semana).</h1>
+            <h1>Crear e inicializar un array asociativo con el sueldo percibido de lunes a domingo.
+                <br> Recorrer el array para calcular el sueldo percibido durante las emana.</h1>
         </header>
 
         <main>
             <?php
+            
+            // Creamos un array asociativo clave día  valor sueldo
             $aSueldoDia = [
-                "Lunes" => random_int(20, 60),
+                "Lunes" => random_int(20, 60), //se prueba ramdon para numero aleatorio
                 "Martes" => 55,
                 "Miercoles" => 60,
                 "Jueves" => 20,
@@ -20,19 +23,19 @@
                 "Sabado" => 100,
                 "Domingo" => 10
             ];
-            // Inicializamos la variable que acumulará el salario semanal
+
+            // Inicializa acumulador 
             $totalSueldoSemana = 0;
-            echo "<h3>Salario obtenido a lo largo de la semana</h3>";
-            // Recorremos el array obteniendo la clave dia y el valor salario
-            foreach ($aSueldoDia as $dia => $salarioDia) {
-                echo "$dia: $salarioDia euros<br>";
-                // Sumamos el salario del día al total semanal
-                $totalSueldoSemana += $salarioDia;
-            }
-            // Mostramos el salario total de la semana 
-            echo "<br><h3>El total del salario semanal es: " . $totalSueldoSemana . " euros</h3>";
+            echo "<h3>El sueldo obtenido a lo largo de la semana es:</h3>";
+            // Recorre el array para mostrar/ sumar sueldos
+            foreach ($aSueldoDia as $dia => $sueldoDia) {//obtiene clave-valor en cada vuelta
+                echo "$dia: $sueldoDia euros<br>";
+                $totalSueldoSemana += $sueldoDia;//se suma sueldo al acum
+                }
+            // Mostramos el sueldo total de la semana
+            echo "<h3>Total del sueldo semanal es de: $totalSueldoSemana euros</h3>";
             ?>
-            ?>
+
         </main>
         <footer>
             <p><a href="../indexProyectoTema3.php">Home</a></p>

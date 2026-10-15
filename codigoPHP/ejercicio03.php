@@ -7,35 +7,48 @@
         <title></title>
     </head>
     <body>
+        <header>
+            <h1>Mostrar la fecha y hora actual formateada en castellano. (Utilizar cuando sea posible la clase DateTime</h1>
+        </header>
         <main>
             <?php
-            // Creamos un objeto DateTime con la fecha y hora actuales.
-// new se utiliza para crear un nuevo objeto.
-            $fechaActual = new DateTime();
+            // Se establece la zona horaria de Madrid para obtener la fecha y hora correctas.
+            date_default_timezone_set('Europe/Madrid');
 
-            /* Creamos un formateador para decidir cómo queremos mostrar la fecha.
-              Sintaxis:
-              new IntlDateFormatter(
-              idioma_PAÍS,
-              formato_de_fecha,
-              formato_de_hora,
-              zona_horaria );
+            // Se crea un objeto DateTime que guarda la fecha y la hora actuales.
+            // A partir de este objeto se puede consultar y dar formato a la fecha.
+            $oFecha = new DateTime();
+            //se establece idioma
+            setlocale(LC_TIME, 'es_ES.UTF-8', 'es_ES', 'spanish');
+            echo "<h3>Fecha y hora actual</h3>";
+            // Se muestra la fecha utilizando el método format() de DateTime que por def muestra en inglés aunque se haya utilizado setlocale()
+            // Este método utiliza letras especiales para representar cada parte:
+            // l = nombre del día de la semana en inglés.
+            // d = día del mes con dos cifras.
+            // F = nombre del mes en inglés.
+            // Y = año con cuatro cifras.
+            // H:i:s = hora, minutos y segundos.
 
-
-              FULL fecha muy completa.
-              LONG fecha larga.
-              MEDIUM formato intermedio.
-              SHORT formato corto. */
-
-            $formato = new IntlDateFormatter(
-                    'es_ES', // Idioma español de España
-                    IntlDateFormatter::FULL, // Fecha completa: día de la semana, día, mes y año
-                    IntlDateFormatter::MEDIUM, // Hora con horas, minutos y segundos
-                    'Europe/Madrid'            // Zona horaria de España
-            );
-
-// format() aplica el formato creado a nuestra fecha y devuelve la fecha preparada para mostrar.
-            echo $formato->format($fechaActual);
+            echo "<p>Utilizando format() del objeto DateTime:</p>";
+            echo "<p>La fecha de hoy es: " .$oFecha->format("l d") . " de " . $oFecha->format("F") . " de " . $oFecha->format("Y") ." y la hora es: " . $oFecha->format("H:i:s") ."</p>";
+            
+            // Se obtiene el timestamp del objeto DateTime que representa la fecha y hora mediante el número de segundos transcurridos desde el 1 de enero de 1970.
+            // Se utiliza porque strftime() recibe la fecha en ese formato.
+            echo "<h3>Fecha en castellano</h3>";
+            
+            // Se utiliza strftime() para dar formato a la fecha según el idioma.
+            // %A = nombre completo del día de la semana.
+            // %d = día del mes con dos cifras.
+            // %B = nombre completo del mes.
+            // %Y = año con cuatro cifras.
+            // Como se ha configurado el idioma español, los nombres pueden
+            // aparecer en castellano si Ubuntu tiene instalado ese idioma.
+            // La hora se obtiene directamente del objeto DateTime con format().
+            // strftime() está obsoleta desde PHP 8.1.
+            echo "<p>La fecha de hoy es: " .
+            strftime("%A %d de %B de %Y", $oFecha->getTimestamp()) .
+            " y la hora es: " . $oFecha->format("H:i:s") .
+            "</p>";
             ?>
         </main>
         <footer>

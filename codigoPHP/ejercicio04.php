@@ -7,45 +7,52 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
     <head>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="../webroot/css/estilos.css">
-        <title></title>
+        <title>04</title>
     </head>
     <body>
+        <header>
+            <h1>Mostrar la  fecha y hora actual en Oporto formateada en portugués</h1>
+        </header>
         <main>
             <?php
-            //objeto DateTime con la fecha y hora actuales
-            $fechaActual = new DateTime();
+            // Se establece la zona horaria de Lisboa.
+            date_default_timezone_set('Europe/Lisbon');
 
-            /* se crea un formateador para mostrar en portugués.
-              'pt_PT' significa portugués de Portugal.
-              FULL muestra la fecha de forma completa.
-              MEDIUM muestra la hora con horas, minutos y segundos.
-              Europe/Lisbon indica la zona horaria de Portugal. */
+            // Se crea un objeto DateTime con la fecha y hora actuales.
+            $oFecha = new DateTime();
 
-            $formato = new IntlDateFormatter(
-                    'pt_PT',
-                    IntlDateFormatter::FULL,
-                    IntlDateFormatter::MEDIUM,
-                    'Europe/Lisbon'
-            );
+            // Se crea un array con los nombres de los días de la semana en portugués.
+            // Las posiciones van de 0 (domingo) a 6 (sábado).
+                        $aDias = [
+                "domingo", "segunda-feira", "terça-feira", "quarta-feira",
+                "quinta-feira", "sexta-feira", "sábado"
+            ];
 
-// Aplicaformato a la fecha actual y la muestra
-            echo $formato->format($fechaActual);
-            
-            /*
-              // Establecer la zona horaria por def
-                date_default_timezone_set('Europe/Lisbon');
-                // crear un objet de DateTime.
-                $obFecha = new DateTime();
+            // Se crea un array con los nombres de los meses en portugués.
+            // La posición 0 corresponde a enero y la posición 11 a diciembre.
+            $aMeses = [
+                "janeiro", "fevereiro", "março", "abril", "maio", "junho",
+                "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"
+            ];
 
-                // locale  en español
-                setlocale(LC_TIME, 'pt_PT.UTF-8', 'pt_PT', 'portuguese');
+            // Se obtiene el número del día de la semana.
+            // format("w") devuelve 0 para domingo y 6 para sábado.
+            $diaSemana = $aDias[$oFecha->format("w")];
 
+            // Se obtiene el nombre del mes.
+            // format("n") devuelve un número del 1 al 12.
+            // Se resta 1 porque las posiciones del array empiezan en 0.
+            $mes = $aMeses[$oFecha->format("n") - 1];
 
-                echo("<h3>Fecha y hora actuales en Portugues.</h3><br>");     
-                echo( "<p>La fecha de hoy en Portugal es :<span> " . $ofecha->format("l") . " " . $ofecha->format("d") . " de " . $ofecha->format("F") . " de " . $ofecha->format("o") . " y la hora es: " . $ofecha->format("H:i:s") . '</span></p>');
-                //info parametros format : https://www.php.net/manual/es/datetime.format.php
+            // Se muestra el título del ejercicio.
+            echo "<h3>Fecha y hora actual en portugués</h3>";
 
-              */
+            // Se muestra la fecha utilizando los nombres de los arrays
+            // y el resto de los datos obtenidos del objeto DateTime.
+            echo "<p>Hoje é " . $diaSemana . ", " .
+            $oFecha->format("d") . " de " . $mes . " de " .
+            $oFecha->format("Y") . " e são " .
+            $oFecha->format("H:i:s") . ".</p>";
             ?>
         </main>
         <footer>

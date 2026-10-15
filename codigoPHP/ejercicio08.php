@@ -1,15 +1,16 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>00</title>
+        <title>08</title>
         <link rel="stylesheet" href="../webroot/css/estilos.css">
     </head>
     <body>
-        <header>Hola mundo y phpinfo</header>
+        <header>Mostrar la dirección IP del visitante</header>
 
         <main>
             <?php
              echo 'Dirección IP del servidor: ' . $_SERVER['SERVER_ADDR'];
+             
             phpinfo();
             ?>
         </main>

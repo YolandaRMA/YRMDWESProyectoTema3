@@ -1,11 +1,11 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>00</title>
+        <title>02</title>
         <link rel="stylesheet" href="../webroot/css/estilos.css">
     </head>
     <body>
-        <header>Hola mundo y phpinfo</header>
+        <header>Variable heredoc</header>
 
         <main>
             <?php
@@ -24,7 +24,7 @@
               Ademásel TEXTO final debe estar solo en su línea sin espacios ni tabulaciones delante */
 
 
-// Mostramos el contenido de la variable
+            // se muestra el contenido de la variable
             echo $texto;
             ?>
         </main>

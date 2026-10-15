@@ -1,16 +1,17 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>00</title>
+        <title>14</title>
         <link rel="stylesheet" href="../webroot/css/estilos.css">
     </head>
     <body>
-        <header>Hola mundo y phpinfo</header>
+        <header>
+            <<h2>Comprobar y crear librerías de funciones</h2>
+        </header>
 
         <main>
             <?php
-            echo "Hola mundo!";
-            phpinfo();
+            echo "PENDIENTE!";
             ?>
         </main>
         <footer>

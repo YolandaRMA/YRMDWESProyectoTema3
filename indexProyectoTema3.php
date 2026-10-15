@@ -85,92 +85,92 @@
                     <tr>
                         <td>8</td>
                         <td>Mostrar la dirección IP del visitante</td>
-<!--                        <td><a href="">Ejecutar</a></td>
-                        <td><a href="">Ver</a></td>-->
+                        <td><a href="codigoPHP/ejercicio08.php">Ejecutar</a></td>
+                        <td><a href="mostrarcodigo/muestraEjercicio08.php">Ver</a></td>
                     </tr>
 
                     <tr>
                         <td>9</td>
                         <td>Mostrar el path del fichero ejecutado</td>
-<!--                        <td><a href="">Ejecutar</a></td>
-                        <td><a href="">Ver</a></td>-->
+                        <td><a href="codigoPHP/ejercicio09.php">Ejecutar</a></td>
+                        <td><a href="mostrarcodigo/muestraEjercicio09.php">Ver</a></td>
                     </tr>
 
                     <tr>
                         <td>10</td>
                         <td>Mostrar el contenido del fichero ejecutado</td>
-<!--                        <td><a href="">Ejecutar</a></td>
-                        <td><a href="">Ver</a></td>-->
+                        <td><a href="codigoPHP/ejercicio10.php">Ejecutar</a></td>
+                        <td><a href="mostrarcodigo/muestraEjercicio10.php">Ver</a></td>
                     </tr>
 
                     <tr>
                         <td>11</td>
                         <td>Mostrar el documento PHPDoc del proyecto</td>
-<!--                        <td><a href="">Ejecutar</a></td>
-                        <td><a href="">Ver</a></td>-->
+                        <td><a href="codigoPHP/ejercicio11.php">Ejecutar</a></td>
+                        <td><a href="mostrarcodigo/muestraEjercicio11.php">Ver</a></td>
                     </tr>
 
                     <tr>
                         <td>12</td>
                         <td>Mostrar las variables superglobales</td>
-<!--                        <td><a href="">Ejecutar</a></td>
-                        <td><a href="">Ver</a></td>-->
+                        <td><a href="codigoPHP/ejercicio12.php">Ejecutar</a></td>
+                        <td><a href="mostrarcodigo/muestraEjercicio12.php">Ver</a></td>
                     </tr>
 
                     <tr>
                         <td>13</td>
                         <td>Contador de visitas desde una fecha concreta</td>
-<!--                        <td><a href="">Ejecutar</a></td>
-                        <td><a href="">Ver</a></td>-->
+                        <td><a href="codigoPHP/ejercicio13.php">Ejecutar</a></td>
+                        <td><a href="mostrarcodigo/muestraEjercicio13.php">Ver</a></td>
                     </tr>
 
                     <tr>
                         <td>14</td>
                         <td>Comprobar y crear librerías de funciones</td>
-<!--                        <td><a href="">Ejecutar</a></td>
-                        <td><a href="">Ver</a></td>-->
+                        <td><a href="codigoPHP/ejercicio14.php">Ejecutar</a></td>
+                        <td><a href="mostrarcodigo/muestraEjercicio14.php">Ver</a></td>
                     </tr>
 
                     <tr>
                         <td>15</td>
                         <td>Array asociativo de sueldos semanales</td>
-<!--                        <td><a href="">Ejecutar</a></td>
-                        <td><a href="">Ver</a></td>-->
+                        <td><a href="codigoPHP/ejercicio15.php">Ejecutar</a></td>
+                        <td><a href="mostrarcodigo/muestraEjercicio015.php">Ver</a></td>
                     </tr>
 
                     <tr>
                         <td>16</td>
                         <td>Recorrer el array de sueldos mediante funciones</td>
-<!--                        <td><a href="">Ejecutar</a></td>
-                        <td><a href="">Ver</a></td>-->
+                        <td><a href="codigoPHP/ejercicio16.php">Ejecutar</a></td>
+                        <td><a href="mostrarcodigo/muestraEjercicio16.php">Ver</a></td>
                     </tr>
 
                     <tr>
                         <td>17</td>
                         <td>Array bidimensional de reservas de un teatro</td>
-<!--                        <td><a href="">Ejecutar</a></td>
-                        <td><a href="">Ver</a></td>-->
+                        <td><a href="codigoPHP/ejercicio17.php">Ejecutar</a></td>
+                        <td><a href="mostrarcodigo/muestraEjercicio17.php">Ver</a></td>
                     </tr>
 
                     <tr>
                         <td>18</td>
                         <td>Recorrer el array del teatro mediante funciones</td>
-<!--                        <td><a href="">Ejecutar</a></td>
-                        <td><a href="">Ver</a></td>-->
+                        <td><a href="codigoPHP/ejercicio18.php">Ejecutar</a></td>
+                        <td><a href="mostrarcodigo/muestraEjercicio18.php">Ver</a></td>
                     </tr>
 
                     <tr>
                         <td>19</td>
                         <td>Librería de validación de formularios</td>
-<!--                        <td><a href="">Ejecutar</a></td>
-                        <td><a href="">Ver</a></td>-->
+                        <td><a href="codigoPHP/ejercicio19.php">Ejecutar</a></td>
+                        <td><a href="mostrarcodigo/muestraEjercicio19.php">Ver</a></td>
                     </tr>
 
                     <tr>
                         <td>20</td>
                         <td>Convertir la librería en una clase de validación</td>
-<!--                        <td><a href="">Ejecutar</a></td>
-                        <td><a href="">Ver</a></td>-->
+                        <td><a href="codigoPHP/ejercicio20.php">Ejecutar</a></td>
+                        <td><a href="mostrarcodigo/muestraEjercicio20.php">Ver</a></td>
                     </tr>
 
                     <tr>
@@ -183,36 +183,36 @@
                     <tr>
                         <td>22</td>
                         <td>Formulario y respuestas en la misma página</td>
-<!--                        <td><a href="">Ejecutar</a></td>
-                        <td><a href="">Ver</a></td>-->
+                        <td><a href="codigoPHP/ejercicio22.php">Ejecutar</a></td>
+                        <td><a href="mostrarcodigo/muestraEjercicio22.php">Ver</a></td>
                     </tr>
 
                     <tr>
                         <td>23</td>
                         <td>Formulario con validación y mensajes de error</td>
-<!--                        <td><a href="">Ejecutar</a></td>
-                        <td><a href="">Ver</a></td>-->
+                        <td><a href="codigoPHP/ejercicio23.php">Ejecutar</a></td>
+                        <td><a href="mostrarcodigo/muestraEjercicio23.php">Ver</a></td>
                     </tr>
 
                     <tr>
                         <td>24</td>
                         <td>Formulario con validación y recuperación de respuestas</td>
-<!--                        <td><a href="">Ejecutar</a></td>
-                        <td><a href="">Ver</a></td>-->
+                        <td><a href="codigoPHP/ejercicio24.php">Ejecutar</a></td>
+                        <td><a href="mostrarcodigo/muestraEjercicio24.php">Ver</a></td>
                     </tr>
 
                     <tr>
                         <td>25</td>
                         <td>Plantilla para crear formularios</td>
-<!--                        <td><a href="">Ejecutar</a></td>
-                        <td><a href="">Ver</a></td>-->
+                        <td><a href="codigoPHP/ejercicio25.php">Ejecutar</a></td>
+                        <td><a href="mostrarcodigo/muestraEjercicio25.php">Ver</a></td>
                     </tr>
 
                     <tr>
                         <td>26</td>
                         <td>Formulario de temperatura y presión atmosférica</td>
-<!--                        <td><a href="">Ejecutar</a></td>
-                        <td><a href="">Ver</a></td>-->
+                        <td><a href="codigoPHP/ejercicio26.php">Ejecutar</a></td>
+                        <td><a href="mostrarcodigo/muestraEjercicio026.php">Ver</a></td>
                     </tr>
                 </tbody>
             </table>

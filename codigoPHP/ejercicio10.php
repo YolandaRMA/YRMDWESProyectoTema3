@@ -1,16 +1,24 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>00</title>
+        <title>10</title>
         <link rel="stylesheet" href="../webroot/css/estilos.css">
     </head>
     <body>
-        <header>Hola mundo y phpinfo</header>
+        <header>Mostrar el path del fichero ejecutado</header>
 
         <main>
             <?php
-            echo "Hola mundo!";
-            phpinfo();
+            echo "<h3>Contenido del fichero actual</h3>";
+
+            // Se utiliza la constante __FILE__ para obtener la ruta completa del fichro PHP que se está ejecutando.
+
+            //file_get_contents() para leer todo el contenido del fichero y almacenarlo en la variable $contenido como una cadena de texto.
+            $contenidoFicheroactual = file_get_contents(__FILE__);
+
+            // Se utiliza htmlspecialchars() para mostrar el código como texto HTML,las etiquetas HTML y los símbolos del código se muestran en pantalla
+            // en lugar de interpretarse como parte de la página web.
+            echo "<pre>" . htmlspecialchars($contenidoFicheroactual) . "</pre>";
             ?>
         </main>
         <footer>

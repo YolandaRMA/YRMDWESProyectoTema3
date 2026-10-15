@@ -1,23 +1,42 @@
 <!DOCTYPE html>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to edit this template
--->
+
 <html>
     <head>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="../webroot/css/estilos.css">
-        <title></title>
+        <title>05</title>
     </head>
     <body>
+        <header>
+            <h1>Variable con marca de tiempo (timestamp)</h1>
+        </header>
         <main>
+            
         <?php
-        // time() devuelve el timestamp al momento actual
-// se guardaen la variable $timestamp.
-        $timestamp = time();
+        // Se establece la zona horaria de Madrid para trabajar con la hora local.
+        date_default_timezone_set('Europe/Madrid');
 
-// Mostramos el valor almacenado en la variable
-        echo $timestamp;
+        // Se crea objeto DateTime con fecha y hora actuales.
+        $oFecha = new DateTime();
+
+        // Se obtiene el timestamp del objeto DateTime.
+        // El timestamp es el número de segundos transcurridos desde el 1 de enero de 1970.
+        $timestamp = $oFecha->getTimestamp();
+
+        // Se muestra el valor numérico del timestamp.
+        echo "<p>El timestamp actual es: " . $timestamp . "</p>";
+
+        // Se convierte el timestamp en una fecha y hora legibles.
+        // date() recibe el formato deseado y el timestamp que se quiere convertir.
+        // d = día, m = mes, Y = año, H = hora, i = minutos y s = segundos.
+        echo "<p>La fecha y hora del timestamp son: " .
+        date("d-m-Y H:i:s", $timestamp) . "</p>";
+        
+        echo 'inicializándolo y mostrando solo a una variable: <br>';
+        $timestamp2 = time();
+
+        // Mostramos el valor almacenado en la variable
+        echo $timestamp2;
         ?>
         
     </main>  

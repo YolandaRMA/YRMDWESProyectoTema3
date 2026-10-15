@@ -2,12 +2,12 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>01Muestra</title>
+        <title>06Muestra</title>
         <link rel="stylesheet" href="../webroot/css/estilos.css">
     </head>
     <body>
-        <header>Inicializar variables de los distintos tipos de datos básicos(string, int, float, bool) 
-            y mostrar los datos por pantalla (echo, print, printf, print_r,var_dump).
+        <header>
+            Calcular fecha y día de la semana en 60 días
         </header>
         <main>
             <?php
