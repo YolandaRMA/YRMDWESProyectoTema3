@@ -183,15 +183,15 @@
                     <tr>
                         <td>22</td>
                         <td>Formulario y respuestas en la misma página</td>
-                        <td><a href="codigoPHP/ejercicio22.php">Ejecutar</a></td>
-                        <td><a href="mostrarcodigo/muestraEjercicio22.php">Ver</a></td>
+<!--                        <td><a href="codigoPHP/ejercicio22.php">Ejecutar</a></td>
+                        <td><a href="mostrarcodigo/muestraEjercicio22.php">Ver</a></td>-->
                     </tr>
 
                     <tr>
                         <td>23</td>
                         <td>Formulario con validación y mensajes de error</td>
-                        <td><a href="codigoPHP/ejercicio23.php">Ejecutar</a></td>
-                        <td><a href="mostrarcodigo/muestraEjercicio23.php">Ver</a></td>
+<!--                        <td><a href="codigoPHP/ejercicio23.php">Ejecutar</a></td>
+                        <td><a href="mostrarcodigo/muestraEjercicio23.php">Ver</a></td>-->
                     </tr>
 
                     <tr>
