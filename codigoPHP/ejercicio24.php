@@ -1,8 +1,9 @@
+<!DOCTYPE html>
 <html lang="es">
     <head>
         <meta charset="UTF-8">
         <title>Ejercicio 24</title>
-
+        <link rel="stylesheet" href="../webroot/css/estilos.css">
         <style>
             /* Se configura el aspecto general de la página. */
             body {
@@ -92,7 +93,7 @@
                 cursor: pointer;
             }
 
-            /* Se oscurece el botón al pasar el ratón. */
+            /* Se cambia el color del botón al pasar el ratón. */
             button:hover {
                 background-color: #3f5346;
             }
@@ -115,12 +116,17 @@
     </head>
 
     <body>
+        <header>
+            <h1>Formulario de datos personales</h1>
+            <p>Introduzca los datos solicitados.</p>
+        </header>
+
         <main>
             <?php
-            // Se carga la librería que contiene las funciones de validación.
+            // Se carga la librería que contiene los métodos de validación.
             require_once '../core/231018libreriaValidacion.php';
 
-            // Se inicializan los arrays de errores y respuestas.
+            // Se inicializan los mensajes de error de cada campo.
             $aErrores = [
                 'nombre' => null,
                 'fechaDeNacimiento' => null,
@@ -129,6 +135,7 @@
                 'profesion' => null
             ];
 
+            // Se inicializan las respuestas para conservar los datos introducidos.
             $aRespuestas = [
                 'nombre' => '',
                 'fechaDeNacimiento' => '',
@@ -140,26 +147,58 @@
             // Se indica inicialmente que el formulario no se ha validado.
             $entradaOK = false;
 
-            // Se comprueba si se ha pulsado el botón de envío.
+            // Se comprueba si se ha enviado el formulario.
             if (isset($_REQUEST['enviar'])) {
 
-                // Se comprueba que el nombre sea obligatorio y alfabético.
-                $aErrores['nombre'] = validacionFormularios::comprobarAlfabetico(
-                    $_REQUEST['nombre'] ?? '',
-                    100,
-                    1,
-                    1
-                );
+                // Se recoge el nombre y se eliminan los espacios de los extremos.
+                $nombre = trim((string) ($_REQUEST['nombre'] ?? ''));
 
-                // Se comprueba que la fecha sea obligatoria y no sea futura.
-                $aErrores['fechaDeNacimiento'] = validacionFormularios::validarFecha(
-                    $_REQUEST['fechaDeNacimiento'] ?? '',
-                    date('d/m/Y'),
-                    '01/01/1900',
-                    1
-                );
+                // Se comprueba que el nombre sea obligatorio.
+                if ($nombre === '') {
+                    $aErrores['nombre'] = 'El nombre es obligatorio.';
 
-                // Se comprueba que el sueldo sea obligatorio y no sea negativo.
+                // preg_match comprueba que el nombre contenga solo letras y espacios.
+                } elseif (!preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚäëïöüÄËÏÖÜàèìòùÀÈÌÒÙñÑ\s]+$/u', $nombre)) {
+                    $aErrores['nombre'] = 'Solo se admiten letras y espacios.';
+
+                // preg_match_all cuenta los caracteres para limitar el nombre a 100.
+                } elseif (preg_match_all('/./us', $nombre) > 100) {
+                    $aErrores['nombre'] = 'El nombre no puede superar los 100 caracteres.';
+                }
+
+                // Se recoge la fecha de nacimiento introducida en el formulario.
+                $fechaNacimiento = $_REQUEST['fechaDeNacimiento'] ?? '';
+
+                // Se comprueba que la fecha sea obligatoria.
+                if ($fechaNacimiento === '') {
+                    $aErrores['fechaDeNacimiento'] = 'La fecha de nacimiento es obligatoria.';
+
+                // Se comprueba que la fecha tenga el formato AAAA-MM-DD y sea una fecha real.
+                } elseif (
+                    !preg_match('/^\d{4}-\d{2}-\d{2}$/', $fechaNacimiento) ||
+                    !checkdate(
+                        (int) substr($fechaNacimiento, 5, 2), // Se obtiene el mes.
+                        (int) substr($fechaNacimiento, 8, 2), // Se obtiene el día.
+                        (int) substr($fechaNacimiento, 0, 4)  // Se obtiene el año.
+                    )
+                ) {
+                    $aErrores['fechaDeNacimiento'] = 'La fecha introducida no es válida.';
+
+                // Se comprueba que la fecha esté entre el inicio del tiempo Unix y hoy.
+                } elseif (
+                    $fechaNacimiento < '1970-01-01' || // Se rechazan las fechas anteriores al 01/01/1970.
+                    $fechaNacimiento > date('Y-m-d')   // Se rechazan las fechas posteriores a hoy.
+                ) {
+                    $aErrores['fechaDeNacimiento'] = 'Introduzca una fecha entre el 01/01/1970 y hoy.';
+
+                // Si supera las comprobaciones, se indica que no hay errores.
+                } else {
+                    $aErrores['fechaDeNacimiento'] = null;
+                }
+
+                // Se comprueba el sueldo.
+                // El método recibe el valor, el máximo, el mínimo y si es obligatorio.
+                // Comprueba el formato monetario español y que el valor esté en el rango indicado.
                 $aErrores['sueldo'] = validacionFormularios::comprobarFloatMonetarioES(
                     $_REQUEST['sueldo'] ?? '',
                     PHP_FLOAT_MAX,
@@ -167,22 +206,30 @@
                     1
                 );
 
-                // Se comprueba que el sexo corresponda a una opción permitida.
+                // in_array comprueba si el sexo coincide con una de las opciones permitidas.
                 $aErrores['sexo'] = in_array(
                     $_REQUEST['sexo'] ?? '',
                     ['F', 'M', 'N'],
                     true
                 ) ? null : 'Debe seleccionar una opción.';
 
-                // Se valida la profesión solo cuando se ha escrito.
-                $aErrores['profesion'] = validacionFormularios::comprobarAlfabetico(
-                    $_REQUEST['profesion'] ?? '',
-                    100,
-                    1,
-                    0
-                );
+                // Se recoge la profesión y se eliminan los espacios de los extremos.
+                $profesion = trim((string) ($_REQUEST['profesion'] ?? ''));
 
-                // Se considera válida la entrada hasta encontrar un error.
+                // Se permite dejar la profesión vacía.
+                if ($profesion === '') {
+                    $aErrores['profesion'] = null;
+
+                // Se comprueba que la profesión contenga solo letras y espacios.
+                } elseif (!preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚäëïöüÄËÏÖÜàèìòùÀÈÌÒÙñÑ\s]+$/u', $profesion)) {
+                    $aErrores['profesion'] = 'Solo se admiten letras y espacios.';
+
+                // Se comprueba que la profesión no supere los 100 caracteres.
+                } elseif (preg_match_all('/./us', $profesion) > 100) {
+                    $aErrores['profesion'] = 'La profesión no puede superar los 100 caracteres.';
+                }
+
+                // Se considera válida la entrada hasta encontrar algún error.
                 $entradaOK = true;
 
                 // Se recorren los errores para comprobar si alguno contiene un mensaje.
@@ -195,19 +242,14 @@
 
                 // Si no hay errores, se guardan las respuestas del formulario.
                 if ($entradaOK) {
-                    $aRespuestas['nombre'] = $_REQUEST['nombre'];
-                    $aRespuestas['fechaDeNacimiento'] = $_REQUEST['fechaDeNacimiento'];
+                    $aRespuestas['nombre'] = $nombre;
+                    $aRespuestas['fechaDeNacimiento'] = $fechaNacimiento;
                     $aRespuestas['sueldo'] = $_REQUEST['sueldo'];
                     $aRespuestas['sexo'] = $_REQUEST['sexo'];
-                    $aRespuestas['profesion'] = $_REQUEST['profesion'] ?? '';
+                    $aRespuestas['profesion'] = $profesion;
                 }
             }
             ?>
-
-            <header>
-                <h1>Formulario de datos personales</h1>
-                <p>Introduzca los datos solicitados.</p>
-            </header>
 
             <?php
             // Si los datos no son válidos, se muestra el formulario.
@@ -218,18 +260,18 @@
                     <div class="campo">
                         <label for="nombre">Nombre:</label>
 
-                        <!-- Se conserva el nombre si no contiene errores. -->
+                        <!-- Se conserva el nombre introducido cuando hay errores. -->
                         <input
                             type="text"
                             id="nombre"
                             name="nombre"
                             class="obligatorio"
-                            value="<?php echo htmlspecialchars(empty($aErrores['nombre']) ? ($_REQUEST['nombre'] ?? '') : '', ENT_QUOTES, 'UTF-8'); ?>"
+                            value="<?php echo htmlspecialchars($_REQUEST['nombre'] ?? '', ENT_QUOTES, 'UTF-8'); ?>"
                             required
                         >
 
                         <?php
-                        // Se muestra el mensaje de error del nombre.
+                        // Se muestra el mensaje de error del nombre, si existe.
                         if ($aErrores['nombre'] !== null) {
                             echo '<p class="error">' . htmlspecialchars($aErrores['nombre'], ENT_QUOTES, 'UTF-8') . '</p>';
                         }
@@ -239,18 +281,18 @@
                     <div class="campo">
                         <label for="fechaDeNacimiento">Fecha de nacimiento:</label>
 
-                        <!-- Se conserva la fecha introducida cuando es válida. -->
+                        <!-- Se conserva la fecha introducida cuando hay errores. -->
                         <input
                             type="date"
                             id="fechaDeNacimiento"
                             name="fechaDeNacimiento"
                             class="obligatorio"
-                            value="<?php echo htmlspecialchars(empty($aErrores['fechaDeNacimiento']) ? ($_REQUEST['fechaDeNacimiento'] ?? '') : '', ENT_QUOTES, 'UTF-8'); ?>"
+                            value="<?php echo htmlspecialchars($_REQUEST['fechaDeNacimiento'] ?? '', ENT_QUOTES, 'UTF-8'); ?>"
                             required
                         >
 
                         <?php
-                        // Se muestra el mensaje de error de la fecha.
+                        // Se muestra el mensaje de error de la fecha, si existe.
                         if ($aErrores['fechaDeNacimiento'] !== null) {
                             echo '<p class="error">' . htmlspecialchars($aErrores['fechaDeNacimiento'], ENT_QUOTES, 'UTF-8') . '</p>';
                         }
@@ -267,12 +309,12 @@
                             name="sueldo"
                             class="obligatorio"
                             placeholder="Ejemplo: 1250,50"
-                            value="<?php echo htmlspecialchars(empty($aErrores['sueldo']) ? ($_REQUEST['sueldo'] ?? '') : '', ENT_QUOTES, 'UTF-8'); ?>"
+                            value="<?php echo htmlspecialchars($_REQUEST['sueldo'] ?? '', ENT_QUOTES, 'UTF-8'); ?>"
                             required
                         >
 
                         <?php
-                        // Se muestra el mensaje de error del sueldo.
+                        // Se muestra el mensaje de error del sueldo, si existe.
                         if ($aErrores['sueldo'] !== null) {
                             echo '<p class="error">' . htmlspecialchars($aErrores['sueldo'], ENT_QUOTES, 'UTF-8') . '</p>';
                         }
@@ -282,7 +324,7 @@
                     <div class="campo">
                         <label for="sexo">Sexo:</label>
 
-                        <!-- Se muestran las tres opciones disponibles. -->
+                        <!-- Se muestran las opciones y se conserva la seleccionada. -->
                         <select id="sexo" name="sexo" class="obligatorio" required>
                             <option value="">Seleccione una opción</option>
                             <option value="F" <?php echo (($_REQUEST['sexo'] ?? '') === 'F') ? 'selected' : ''; ?>>Femenino</option>
@@ -291,7 +333,7 @@
                         </select>
 
                         <?php
-                        // Se muestra el mensaje de error del sexo.
+                        // Se muestra el mensaje de error del sexo, si existe.
                         if ($aErrores['sexo'] !== null) {
                             echo '<p class="error">' . htmlspecialchars($aErrores['sexo'], ENT_QUOTES, 'UTF-8') . '</p>';
                         }
@@ -301,17 +343,17 @@
                     <div class="campo">
                         <label for="profesion">Profesión (opcional):</label>
 
-                        <!-- Se permite dejar la profesión vacía. -->
+                        <!-- Se conserva la profesión introducida cuando hay errores. -->
                         <input
                             type="text"
                             id="profesion"
                             name="profesion"
                             class="opcional"
-                            value="<?php echo htmlspecialchars(empty($aErrores['profesion']) ? ($_REQUEST['profesion'] ?? '') : '', ENT_QUOTES, 'UTF-8'); ?>"
+                            value="<?php echo htmlspecialchars($_REQUEST['profesion'] ?? '', ENT_QUOTES, 'UTF-8'); ?>"
                         >
 
                         <?php
-                        // Se muestra el mensaje de error de la profesión.
+                        // Se muestra el mensaje de error de la profesión, si existe.
                         if ($aErrores['profesion'] !== null) {
                             echo '<p class="error">' . htmlspecialchars($aErrores['profesion'], ENT_QUOTES, 'UTF-8') . '</p>';
                         }
@@ -337,23 +379,25 @@
                 </form>
 
             <?php
-            // Si los datos son válidos, se muestran los resultados.
+            // Si todos los datos son válidos, se muestran los resultados.
             } else {
             ?>
                 <section class="resultado">
                     <h2>Datos introducidos</h2>
 
                     <?php
-                    // Se muestran los datos escapando los caracteres especiales.
+                    // htmlspecialchars evita que los datos se interpreten como código HTML.
                     echo '<p><strong>Nombre:</strong> ' . htmlspecialchars($aRespuestas['nombre'], ENT_QUOTES, 'UTF-8') . '</p>';
 
-                    // Se convierte la fecha al formato día/mes/año.
+                    // DateTime recibe la fecha y format la muestra como día/mes/año.
                     $fecha = new DateTime($aRespuestas['fechaDeNacimiento']);
                     echo '<p><strong>Fecha de nacimiento:</strong> ' . $fecha->format('d/m/Y') . '</p>';
 
-                    // Se cambia la coma por un punto y se muestran dos decimales.
+                    // str_replace cambia la coma por un punto para convertir el sueldo a número.
                     $sueldo = str_replace(',', '.', $aRespuestas['sueldo']);
-                    echo '<p><strong>Sueldo:</strong> ' . number_format((float) $sueldo, 2, '.', '') . ' €</p>';
+
+                    // number_format muestra el sueldo con dos decimales y separadores españoles.
+                    echo '<p><strong>Sueldo:</strong> ' . number_format((float) $sueldo, 2, ',', '.') . ' €</p>';
 
                     // Se relaciona cada código del desplegable con su texto.
                     $sexo = [
@@ -375,10 +419,12 @@
             }
             ?>
         </main>
+
         <footer>
             <p><a href="../indexProyectoTema3.php">Home</a></p>
             <div class="footer-text">
-                <p>2026-27 IES Los Sauces. &copy; Todos los derechos reservados.<a href="../index.html">Yolanda Rodríguez Moreno</a></p>                <time datetime="2026-09-30">Última actualización: 30 de Septiembre de 2026</time>
+                <p>2026-27 IES Los Sauces. &copy; Todos los derechos reservados. <a href="../index.html">Yolanda Rodríguez Moreno</a></p>
+                <time datetime="2026-09-30">Última actualización: 30 de septiembre de 2026</time>
             </div>
         </footer>
     </body>
