@@ -1,137 +1,379 @@
-<html>
+<html lang="es">
     <head>
         <meta charset="UTF-8">
-        <title>ej-21</title>
-        <link rel="stylesheet" href="../webroot/css/estilos.css">
-    </head>
-    <body>
-        <header>
-            <h1>
-                Construir un formulario para recoger un cuestionario realizado a una persona y enviarlo a una página Tratamiento.php 
-                para que muestre las preguntas y las respuestas recogidas.
-            </h1>
-        </header>
+        <title>Ejercicio 24</title>
 
-        <main>
-            <?php
-            /**
-             * Ejercicio 24
-             * Recoge el nombre, la fecha de nacimiento y el sueldo de una persona.
-             * Si algún dato es incorrecto, muestra el error y conserva las respuestas válidas.
-             */
-// Enlace a la librería que contiene las funciones de validación.
-            require_once '../core/231018libreriaValidacion.php';
-
-// Indica si todos los datos introducidos son correctos.
-            $entradaOK = true;
-
-// Almacena los mensajes de error de cada campo.
-            $aError = [
-                'nombre' => '',
-                'fechaDeNacimiento' => '',
-                'sueldo' => ''
-            ];
-
-// Almacena las respuestas del usuario.
-            $aRespuesta = [
-                'nombre' => '',
-                'fechaDeNacimiento' => '',
-                'sueldo' => ''
-            ];
-
-// Comprueba si se ha enviado el formulario.
-            if (isset($_REQUEST['enviar'])) {
-
-                // Comprueba que el nombre contiene entre 1 y 100 caracteres alfabéticos.
-                // Parámetros: texto que se valida, longitud máxima, longitud mínima y si es obligatorio (1 = sí).
-                $aError['nombre'] = validacionFormularios::comprobarAlfabetico(
-                        $_REQUEST['nombre'], 100, 1, 1
-                );
-
-                // Comprueba que la fecha está entre el 01/01/1900 y el día actual.
-                // Parámetros: fecha introducida, fecha máxima, fecha mínima y si es obligatoria (1 = sí).
-                $aError['fechaDeNacimiento'] = validacionFormularios::validarFecha(
-                        $_REQUEST['fechaDeNacimiento'],
-                        date('Y-m-d'),
-                        '01/01/1900',
-                        1
-                );
-
-                // Comprueba que el sueldo es un número con coma decimal y no es negativo.
-                // Parámetros: número introducido, valor máximo, valor mínimo y si es obligatorio (1 = sí).
-                $aError['sueldo'] = validacionFormularios::comprobarFloatMonetarioES(
-                        $_REQUEST['sueldo'], PHP_FLOAT_MAX, 0, 1
-                );
-
-                // Si algún campo tiene un mensaje de error, la entrada no es correcta.
-                foreach ($aError as $error) {
-                    if (!empty($error)) {
-                        $entradaOK = false;
-                    }
-                }
-            } else {
-                // Si todavía no se ha enviado el formulario, no se muestran las respuestas.
-                $entradaOK = false;
+        <style>
+            /* Se configura el aspecto general de la página. */
+            body {
+                margin: 0;
+                padding: 30px;
+                font-family: Arial, sans-serif;
+                background-color: #f2f0e9;
+                color: #333333;
             }
 
-// Si todos los datos son correctos, muestra las respuestas.
-            if ($entradaOK) {
+            /* Se centra el contenido principal. */
+            main {
+                max-width: 550px;
+                margin: 0 auto;
+                padding: 30px;
+                background-color: #ffffff;
+                border-radius: 8px;
+            }
 
-                $aRespuesta['nombre'] = $_REQUEST['nombre'];
+            /* Se centra el encabezado del formulario. */
+            header {
+                margin-bottom: 25px;
+                text-align: center;
+            }
 
-                // Convierte la fecha introducida en un objeto DateTime.
-                $aRespuesta['fechaDeNacimiento'] = new DateTime($_REQUEST['fechaDeNacimiento']);
+            /* Se establece el formato del título. */
+            h1 {
+                color: #435b4b;
+                font-size: 25px;
+            }
 
-                // Sustituye la coma decimal por un punto y convierte el sueldo en número.
-                $aRespuesta['sueldo'] = (float) str_replace(',', '.', $_REQUEST['sueldo']);
+            /* Se separan los campos del formulario. */
+            .campo {
+                margin-bottom: 18px;
+            }
 
-                echo '<h3>Respuestas del usuario</h3>';
-                echo '<p>Nombre: ' . htmlspecialchars($aRespuesta['nombre']) . '</p>';
-                echo '<p>Fecha de nacimiento: ' . $aRespuesta['fechaDeNacimiento']->format('d/m/Y') . '</p>';
-                echo '<p>Sueldo: ' . number_format($aRespuesta['sueldo'], 2, ',', '.') . ' €</p>';
-                echo '<a href="ejercicio24.php">Volver al formulario</a>';
-            } else {
-                ?>
+            /* Se colocan las etiquetas encima de los campos. */
+            label {
+                display: block;
+                margin-bottom: 7px;
+                font-weight: bold;
+            }
 
-                <h2>Cuestionario personal</h2>
+            /* Se aplica el mismo formato a los campos y desplegables. */
+            input,
+            select {
+                box-sizing: border-box;
+                width: 100%;
+                padding: 10px;
+                border: 1px solid #cccccc;
+                border-radius: 4px;
+                font-size: 15px;
+            }
 
-                <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
+            /* Se identifican los campos obligatorios con fondo amarillo. */
+            .obligatorio {
+                background-color: #fff8d9;
+            }
 
-                    <label for="nombre">Nombre:</label>
-                    <input type="text" name="nombre" id="nombre"
-                           value="<?php
-            // Recupera el nombre anterior si es correcto y lo protege para mostrarlo en HTML.
-            // Si está vacío o tiene errores, deja el campo vacío.
-            echo empty($aError['nombre']) ? htmlspecialchars($_REQUEST['nombre'] ?? '') : '';
-                ?>">
-                    <span style="color: red;"><?php echo $aError['nombre']; ?></span>
-                    <br>
+            /* Se identifican los campos opcionales con fondo blanco. */
+            .opcional {
+                background-color: #ffffff;
+            }
 
-                    <label for="fechaDeNacimiento">Fecha de nacimiento:</label>
-                    <input type="date" name="fechaDeNacimiento" id="fechaDeNacimiento"
-                           value="<?php
-                       // Recupera la fecha anterior si es correcta; si no, deja el campo vacío.
-                       echo empty($aError['fechaDeNacimiento']) ? htmlspecialchars($_REQUEST['fechaDeNacimiento'] ?? '') : '';
-                       ?>">
-                    <span style="color: red;"><?php echo $aError['fechaDeNacimiento']; ?></span>
-                    <br>
+            /* Se identifican los campos bloqueados con fondo gris. */
+            .bloqueado {
+                background-color: #e5e5e5;
+                color: #555555;
+            }
 
-                    <label for="sueldo">Sueldo:</label>
-                    <input type="text" name="sueldo" id="sueldo"
-                           value="<?php
-                       // Recupera el sueldo anterior si es correcto; si no, deja el campo vacío.
-                       echo empty($aError['sueldo']) ? htmlspecialchars($_REQUEST['sueldo'] ?? '') : '';
-                       ?>">
-                    <span style="color: red;"><?php echo $aError['sueldo']; ?></span>
-                    <br>
+            /* Se muestran los errores en rojo. */
+            .error {
+                margin-top: 5px;
+                color: #b3261e;
+                font-size: 14px;
+            }
 
+            /* Se da formato al botón de envío. */
+            button {
+                width: 100%;
+                padding: 12px;
+                border: none;
+                border-radius: 4px;
+                background-color: #536b5b;
+                color: #ffffff;
+                font-size: 16px;
+                cursor: pointer;
+            }
+
+            /* Se oscurece el botón al pasar el ratón. */
+            button:hover {
+                background-color: #3f5346;
+            }
+
+            /* Se da formato a la zona de resultados. */
+            .resultado {
+                margin-top: 25px;
+                padding: 18px;
+                background-color: #edf3ee;
+                border-radius: 5px;
+            }
+
+            /* Se ajusta el título de los resultados. */
+            .resultado h2 {
+                margin-top: 0;
+                color: #435b4b;
+                font-size: 20px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <main>
+            <?php
+            // Se carga la librería que contiene las funciones de validación.
+            require_once '../core/231018libreriaValidacion.php';
+
+            // Se inicializan los arrays de errores y respuestas.
+            $aErrores = [
+                'nombre' => null,
+                'fechaDeNacimiento' => null,
+                'sueldo' => null,
+                'sexo' => null,
+                'profesion' => null
+            ];
+
+            $aRespuestas = [
+                'nombre' => '',
+                'fechaDeNacimiento' => '',
+                'sueldo' => '',
+                'sexo' => '',
+                'profesion' => ''
+            ];
+
+            // Se indica inicialmente que el formulario no se ha validado.
+            $entradaOK = false;
+
+            // Se comprueba si se ha pulsado el botón de envío.
+            if (isset($_REQUEST['enviar'])) {
+
+                // Se comprueba que el nombre sea obligatorio y alfabético.
+                $aErrores['nombre'] = validacionFormularios::comprobarAlfabetico(
+                    $_REQUEST['nombre'] ?? '',
+                    100,
+                    1,
+                    1
+                );
+
+                // Se comprueba que la fecha sea obligatoria y no sea futura.
+                $aErrores['fechaDeNacimiento'] = validacionFormularios::validarFecha(
+                    $_REQUEST['fechaDeNacimiento'] ?? '',
+                    date('d/m/Y'),
+                    '01/01/1900',
+                    1
+                );
+
+                // Se comprueba que el sueldo sea obligatorio y no sea negativo.
+                $aErrores['sueldo'] = validacionFormularios::comprobarFloatMonetarioES(
+                    $_REQUEST['sueldo'] ?? '',
+                    PHP_FLOAT_MAX,
+                    0,
+                    1
+                );
+
+                // Se comprueba que el sexo corresponda a una opción permitida.
+                $aErrores['sexo'] = in_array(
+                    $_REQUEST['sexo'] ?? '',
+                    ['F', 'M', 'N'],
+                    true
+                ) ? null : 'Debe seleccionar una opción.';
+
+                // Se valida la profesión solo cuando se ha escrito.
+                $aErrores['profesion'] = validacionFormularios::comprobarAlfabetico(
+                    $_REQUEST['profesion'] ?? '',
+                    100,
+                    1,
+                    0
+                );
+
+                // Se considera válida la entrada hasta encontrar un error.
+                $entradaOK = true;
+
+                // Se recorren los errores para comprobar si alguno contiene un mensaje.
+                foreach ($aErrores as $error) {
+                    if ($error !== null) {
+                        $entradaOK = false;
+                        break;
+                    }
+                }
+
+                // Si no hay errores, se guardan las respuestas del formulario.
+                if ($entradaOK) {
+                    $aRespuestas['nombre'] = $_REQUEST['nombre'];
+                    $aRespuestas['fechaDeNacimiento'] = $_REQUEST['fechaDeNacimiento'];
+                    $aRespuestas['sueldo'] = $_REQUEST['sueldo'];
+                    $aRespuestas['sexo'] = $_REQUEST['sexo'];
+                    $aRespuestas['profesion'] = $_REQUEST['profesion'] ?? '';
+                }
+            }
+            ?>
+
+            <header>
+                <h1>Formulario de datos personales</h1>
+                <p>Introduzca los datos solicitados.</p>
+            </header>
+
+            <?php
+            // Si los datos no son válidos, se muestra el formulario.
+            if (!$entradaOK) {
+            ?>
+                <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, 'UTF-8'); ?>" method="post">
+
+                    <div class="campo">
+                        <label for="nombre">Nombre:</label>
+
+                        <!-- Se conserva el nombre si no contiene errores. -->
+                        <input
+                            type="text"
+                            id="nombre"
+                            name="nombre"
+                            class="obligatorio"
+                            value="<?php echo htmlspecialchars(empty($aErrores['nombre']) ? ($_REQUEST['nombre'] ?? '') : '', ENT_QUOTES, 'UTF-8'); ?>"
+                            required
+                        >
+
+                        <?php
+                        // Se muestra el mensaje de error del nombre.
+                        if ($aErrores['nombre'] !== null) {
+                            echo '<p class="error">' . htmlspecialchars($aErrores['nombre'], ENT_QUOTES, 'UTF-8') . '</p>';
+                        }
+                        ?>
+                    </div>
+
+                    <div class="campo">
+                        <label for="fechaDeNacimiento">Fecha de nacimiento:</label>
+
+                        <!-- Se conserva la fecha introducida cuando es válida. -->
+                        <input
+                            type="date"
+                            id="fechaDeNacimiento"
+                            name="fechaDeNacimiento"
+                            class="obligatorio"
+                            value="<?php echo htmlspecialchars(empty($aErrores['fechaDeNacimiento']) ? ($_REQUEST['fechaDeNacimiento'] ?? '') : '', ENT_QUOTES, 'UTF-8'); ?>"
+                            required
+                        >
+
+                        <?php
+                        // Se muestra el mensaje de error de la fecha.
+                        if ($aErrores['fechaDeNacimiento'] !== null) {
+                            echo '<p class="error">' . htmlspecialchars($aErrores['fechaDeNacimiento'], ENT_QUOTES, 'UTF-8') . '</p>';
+                        }
+                        ?>
+                    </div>
+
+                    <div class="campo">
+                        <label for="sueldo">Sueldo (€):</label>
+
+                        <!-- Se permite introducir el sueldo con coma decimal. -->
+                        <input
+                            type="text"
+                            id="sueldo"
+                            name="sueldo"
+                            class="obligatorio"
+                            placeholder="Ejemplo: 1250,50"
+                            value="<?php echo htmlspecialchars(empty($aErrores['sueldo']) ? ($_REQUEST['sueldo'] ?? '') : '', ENT_QUOTES, 'UTF-8'); ?>"
+                            required
+                        >
+
+                        <?php
+                        // Se muestra el mensaje de error del sueldo.
+                        if ($aErrores['sueldo'] !== null) {
+                            echo '<p class="error">' . htmlspecialchars($aErrores['sueldo'], ENT_QUOTES, 'UTF-8') . '</p>';
+                        }
+                        ?>
+                    </div>
+
+                    <div class="campo">
+                        <label for="sexo">Sexo:</label>
+
+                        <!-- Se muestran las tres opciones disponibles. -->
+                        <select id="sexo" name="sexo" class="obligatorio" required>
+                            <option value="">Seleccione una opción</option>
+                            <option value="F" <?php echo (($_REQUEST['sexo'] ?? '') === 'F') ? 'selected' : ''; ?>>Femenino</option>
+                            <option value="M" <?php echo (($_REQUEST['sexo'] ?? '') === 'M') ? 'selected' : ''; ?>>Masculino</option>
+                            <option value="N" <?php echo (($_REQUEST['sexo'] ?? '') === 'N') ? 'selected' : ''; ?>>Prefiero no decirlo</option>
+                        </select>
+
+                        <?php
+                        // Se muestra el mensaje de error del sexo.
+                        if ($aErrores['sexo'] !== null) {
+                            echo '<p class="error">' . htmlspecialchars($aErrores['sexo'], ENT_QUOTES, 'UTF-8') . '</p>';
+                        }
+                        ?>
+                    </div>
+
+                    <div class="campo">
+                        <label for="profesion">Profesión (opcional):</label>
+
+                        <!-- Se permite dejar la profesión vacía. -->
+                        <input
+                            type="text"
+                            id="profesion"
+                            name="profesion"
+                            class="opcional"
+                            value="<?php echo htmlspecialchars(empty($aErrores['profesion']) ? ($_REQUEST['profesion'] ?? '') : '', ENT_QUOTES, 'UTF-8'); ?>"
+                        >
+
+                        <?php
+                        // Se muestra el mensaje de error de la profesión.
+                        if ($aErrores['profesion'] !== null) {
+                            echo '<p class="error">' . htmlspecialchars($aErrores['profesion'], ENT_QUOTES, 'UTF-8') . '</p>';
+                        }
+                        ?>
+                    </div>
+
+                    <div class="campo">
+                        <label for="pais">País:</label>
+
+                        <!-- Se muestra España en un campo que no permite modificarlo. -->
+                        <input
+                            type="text"
+                            id="pais"
+                            name="pais"
+                            class="bloqueado"
+                            value="España"
+                            readonly
+                        >
+                    </div>
+
+                    <!-- Se envían los datos para validarlos en PHP. -->
                     <button type="submit" name="enviar">Enviar</button>
-
                 </form>
 
-                           <?php
-                       }
-                       ?>
+            <?php
+            // Si los datos son válidos, se muestran los resultados.
+            } else {
+            ?>
+                <section class="resultado">
+                    <h2>Datos introducidos</h2>
+
+                    <?php
+                    // Se muestran los datos escapando los caracteres especiales.
+                    echo '<p><strong>Nombre:</strong> ' . htmlspecialchars($aRespuestas['nombre'], ENT_QUOTES, 'UTF-8') . '</p>';
+
+                    // Se convierte la fecha al formato día/mes/año.
+                    $fecha = new DateTime($aRespuestas['fechaDeNacimiento']);
+                    echo '<p><strong>Fecha de nacimiento:</strong> ' . $fecha->format('d/m/Y') . '</p>';
+
+                    // Se cambia la coma por un punto y se muestran dos decimales.
+                    $sueldo = str_replace(',', '.', $aRespuestas['sueldo']);
+                    echo '<p><strong>Sueldo:</strong> ' . number_format((float) $sueldo, 2, '.', '') . ' €</p>';
+
+                    // Se relaciona cada código del desplegable con su texto.
+                    $sexo = [
+                        'F' => 'Femenino',
+                        'M' => 'Masculino',
+                        'N' => 'Prefiero no decirlo'
+                    ];
+                    echo '<p><strong>Sexo:</strong> ' . $sexo[$aRespuestas['sexo']] . '</p>';
+
+                    // Se muestra la profesión o se indica que no se ha introducido.
+                    $profesion = $aRespuestas['profesion'] !== '' ? $aRespuestas['profesion'] : 'No indicada';
+                    echo '<p><strong>Profesión:</strong> ' . htmlspecialchars($profesion, ENT_QUOTES, 'UTF-8') . '</p>';
+
+                    // Se muestra el país establecido en el formulario.
+                    echo '<p><strong>País:</strong> España</p>';
+                    ?>
+                </section>
+            <?php
+            }
+            ?>
         </main>
         <footer>
             <p><a href="../indexProyectoTema3.php">Home</a></p>
